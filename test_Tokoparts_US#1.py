@@ -1,12 +1,11 @@
-from playwright.sync_api import Playwright, Page, expect, sync_playwright
+from playwright.sync_api import Page, expect, sync_playwright
 import time
-from login_function_tokoparts import login_scm
+from based_Function import *
 import string
 import random
-import os
-from report_utils import generate_pdf_report, generate_consolidated_pdf_report
 
-def test_case_1_UserStory1(page: Page, request):
+
+def test_case_1_UserStory1(page: Page, test_context):
     login_scm(page)
     page.locator('[src="/img/admin/truck.png"]').click()
     time.sleep(1)
@@ -57,10 +56,11 @@ def test_case_1_UserStory1(page: Page, request):
 
     expect(page.locator('//*[@id="frmData"]/div[1]/div[13]/label')).to_have_text("Cash on Delivery")
     expect(page.locator('#is_cod')).to_be_visible()
+    screenshoot(page, test_context)
     time.sleep(2)
 
 
-def test_case_2_UserStory1(page: Page, request):
+def test_case_2_UserStory1(page: Page, request, test_context):
     login_scm(page)
     page.locator('[src="/img/admin/truck.png"]').click()
     time.sleep(1)
@@ -156,11 +156,9 @@ def test_case_2_UserStory1(page: Page, request):
     time.sleep(1)
     expect(page.locator('#delivery_fee_ori')).to_be_disabled()
     time.sleep(1)
-    from report_utils import generate_pdf_report
-    generate_pdf_report(request.node)  # Kirim test item ke PDF generator
-    print("PDF report triggered!")  # Debug line
+    screenshoot(page, test_context)
 
-def test_case_3_UserStory1(page: Page, request):
+def test_case_3_UserStory1(page: Page, test_context):
     login_scm(page)
     page.locator('[src="/img/admin/truck.png"]').click()
     time.sleep(1)
@@ -260,7 +258,9 @@ def test_case_3_UserStory1(page: Page, request):
     expect(page.locator('#select2-service_type_sco-container')).to_be_disabled()
     time.sleep(1)
     expect(page.locator('#delivery_fee_ori')).to_be_enabled   
-    time.sleep(1)    
+    time.sleep(1)  
+    screenshoot(page, test_context)
+      
 
 def test_case_4_UserStory1(page: Page, request):
     login_scm(page)
@@ -987,6 +987,7 @@ def test_case_16_UserStory1(page: Page, request):
     #Verify Error Message
     expect(page.locator('//*[@id="alertData"]/div/div[2]/div')).to_have_text('The status field is required.')
     time.sleep(1)
+
 
 def test_case_17_UserStory1(page: Page, request):
     login_scm(page)
